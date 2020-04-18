@@ -20,6 +20,7 @@ BHZ3;Temperatur;Puffer;Oben;0x1c10400b;S3;°C;0.1;;;
 BHZ3;Temperatur;Puffer;Mitte;0x1c10400c;S4;°C;0.1;;;
 BHZ3;Temperatur;Puffer;Unten;0x1c10400d;S5;°C;0.1;;;
 BHZ3;Temperatur;Solar;Eintrag Puffer;0x1c10400e;S6;°C;0.1;;;
+BHZ3;Temperatur;Solar;Kollektortemperatur;0x1c10400f;S7;°C;0.1;;;
 BHZ3;Temperatur;Solar;RL;0x1c104010;S8;°C;0.1;;;
 BHZ3;Temperatur;WW;Zirkulation;0x1c104012;S10;°C;0.1;;;
 BHZ3;Temperatur;Wetter;;0x1c104013;S11;°C;0.1;;;
