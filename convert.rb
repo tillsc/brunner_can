@@ -17,9 +17,9 @@ CSV.foreach('in.csv', col_sep: ';', headers: true) do |row|
     out_files[dbc_filename] << "\n"
 
     out_files['hassio.sensors.yaml'] << "- platform: mqtt\n"
-    out_files['hassio.sensors.yaml'] << "  name: '#{mid.downcase}'"
-    out_files['hassio.sensors.yaml'] << "  unit_of_measurement: '#{row['Unit']}'"
-    out_files['hassio.sensors.yaml'] << "  state_topic: \"#{mid.sub('_', '/').sub('_', '/').downcase}\""
+    out_files['hassio.sensors.yaml'] << "  name: '#{mid.downcase}'\n"
+    out_files['hassio.sensors.yaml'] << "  unit_of_measurement: '#{row['Unit']}'\n"
+    out_files['hassio.sensors.yaml'] << "  state_topic: \"#{mid.sub('_', '/').sub('_', '/').downcase}\"\n"
 
     out_files['hassio.customize.yaml'] << "sensor.#{mid.downcase}:\n"
     out_files['hassio.customize.yaml'] << "  friendly_name: '#{name}'\n"
