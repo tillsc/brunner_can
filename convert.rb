@@ -5,6 +5,7 @@ out_files = Hash.new { |h, k| h[k] = '' }
 CSV.foreach('in.csv', col_sep: ';', headers: true) do |row|
   id = row['ID'].to_i(16)
   if id > 0
+    id += 0x80000000 # Set bit to force extended mode
     name = "#{row['Group']} #{row['Module']}"
     name << " #{row['Name']}" if row['Name'].to_s != ''
     mid = "#{row['Device']}_#{row['Group']}_#{row['Module']}"
@@ -13,7 +14,7 @@ CSV.foreach('in.csv', col_sep: ';', headers: true) do |row|
     dbc_filename = "#{row['Device'].downcase}.dbc"
     out_files[dbc_filename] << "CM_ BO_ #{id} \"#{row['Group']} #{row['Module']} #{row['Name']}\";\n"
     out_files[dbc_filename] << "BO_ #{id} #{mid}: 4 #{row['Device']}\n"
-    out_files[dbc_filename] << "  SG_ #{mid} : 7|24@0- (#{row['Scale'] || '1'},0) [0|0] \"#{row['Unit']}\" DBG\n"
+    out_files[dbc_filename] << "  SG_ #{mid} : 15|16@0- (#{row['Scale'] || '1'},0) [0|0] \"#{row['Unit']}\" DBG\n"
     out_files[dbc_filename] << "\n"
 
     out_files['hassio.sensors.yaml'] << "- platform: mqtt\n"
