@@ -12,9 +12,11 @@ CSV.foreach('in.csv', col_sep: ';', headers: true) do |row|
     mid <<  "_#{row['Name']}" if row['Name'].to_s != ''
     mid = mid.upcase.gsub('-', '_').gsub(/\?*/, "").gsub(/\(.*\)/, "").strip.gsub(" ", "_")
     dbc_filename = "#{row['Device'].downcase}.dbc"
-    out_files[dbc_filename] << "CM_ BO_ #{id} \"#{row['Group']} #{row['Module']} #{row['Name']}\";\n"
     out_files[dbc_filename] << "BO_ #{id} #{mid}: 4 #{row['Device']}\n"
     out_files[dbc_filename] << "  SG_ #{mid} : 15|16@0- (#{row['Scale'] || '1'},0) [0|0] \"#{row['Unit']}\" DBG\n"
+    out_files[dbc_filename] << "\n"
+    out_files[dbc_filename] << "CM_ BO_ #{id} \"#{row['Group']} #{row['Module']} #{row['Name']}\";\n"
+    out_files[dbc_filename] << "CM_ SG_ #{id} #{mid} \"#{row['Annotations']}\";\n"
     out_files[dbc_filename] << "\n"
 
     out_files['hassio.sensors.yaml'] << "- platform: mqtt\n"
@@ -28,5 +30,16 @@ CSV.foreach('in.csv', col_sep: ';', headers: true) do |row|
 end
 
 out_files.each do |filename, content|
-  File.write("out/#{filename}", content)
+  File.write("out/#{filename}", <<EOF)
+VERSION ""
+
+NS_ : 
+  CM_
+
+BS_:
+
+BU_: #{filename.gsub(".dbc", "").upcase}
+
+#{content}
+EOF
 end
